@@ -24,11 +24,12 @@ A pretrained **ArcFace** model (ResNet-50 backbone) extracts a 512-dimensional f
 
 ## How It Works
 
-1. A **reference image** of a known real person is loaded
-2. A **test image** (real or deepfake) is loaded
-3. **ArcFace** extracts a 512-dimensional embedding from each face
-4. **Cosine similarity** is computed between the two embeddings
-5. If similarity is above **0.60** → GENUINE, below → FAKE
+    Reference image (real) ──► ArcFace ──► 512-dim embedding ──┐
+                                                                 ├──► Cosine similarity ──► Decision
+    Test image (real/fake) ──► ArcFace ──► 512-dim embedding ──┘
+
+    Score ≥ 0.60  →  GENUINE ✅
+    Score < 0.60  →  FAKE / IMPOSTOR ❌
 
 The key insight is that face-swapping corrupts deep facial identity features even when the result looks visually convincing. ArcFace detects this mismatch without ever having been trained on fake images.
 
@@ -36,14 +37,20 @@ The key insight is that face-swapping corrupts deep facial identity features eve
 
 ## Project Structure
 
-- **deepfake_detection.ipynb** — Main notebook with all experiments
-- **extract_frames.py** — Extract frames from FaceForensics++ videos
-- **faceforensics_download.py** — Download FaceForensics++ dataset
-- **score_distribution.png** — Score distribution plot
-- **roc_curve_lfw.png** — ROC curve on LFW dataset
-- **combined_score_distribution.png** — Combined genuine/impostor/deepfake scores
-- **ff_detection_results.png** — FaceForensics++ visual results
-- **results_analysis.png** — Comprehensive results analysis
+    deepfake-detection-biometrics/
+    │
+    ├── deepfake_detection.ipynb        # Main notebook — all experiments
+    ├── extract_frames.py               # Extract frames from FF++ videos
+    ├── faceforensics_download.py       # Download FaceForensics++ dataset
+    │
+    ├── score_distribution.png          # Score distribution plot
+    ├── roc_curve_lfw.png               # ROC curve on LFW dataset
+    ├── combined_score_distribution.png # Combined genuine/impostor/deepfake
+    ├── ff_detection_results.png        # FaceForensics++ visual results
+    ├── results_analysis.png            # Comprehensive results analysis
+    │
+    ├── .gitignore
+    └── LICENSE
 
 ---
 
